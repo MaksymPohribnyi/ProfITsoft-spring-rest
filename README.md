@@ -83,6 +83,297 @@ docker-compose up --build
 | **POST**| /_report |Report: Download filtered CSV report|
 | **POST**| /upload |Upload policies via JSON file|
 
-
 > **A sample JSON file for testing the `/upload` endpoint is included in the project resources:**
 `src/main/resources/upload/import.json`
+
+## 🌐 API Reference
+
+### Client Base URL: http://localhost:8080/api/client
+
+### 1. Get Clients
+
+**Example Request**
+
+```bash
+#Linux/macOS/Windows
+curl http://localhost:8080/api/client
+```
+
+**Example Response**
+
+```json
+[
+  {
+    "id": "11111111-0000-0000-0000-000000000001",
+    "firstName": "Taras",
+    "lastName": "Shevchenko",
+    "email": "taras.sheva@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000002",
+    "firstName": "Lesya",
+    "lastName": "Ukrainka",
+    "email": "lesya.ukr@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000007",
+    "firstName": "Lina",
+    "lastName": "Kostenko",
+    "email": "lina.kost@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000003",
+    "firstName": "Ivan",
+    "lastName": "Franko",
+    "email": "ivan.franko@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000004",
+    "firstName": "Bogdan",
+    "lastName": "Khmelnytsky",
+    "email": "bogdan.khm@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000005",
+    "firstName": "Hryhorii",
+    "lastName": "Skovoroda",
+    "email": "hryhorii.skov@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000006",
+    "firstName": "Mykhailo",
+    "lastName": "Hrushevsky",
+    "email": "mykhailo.hru@ua.net"
+  },
+  {
+    "id": "11111111-0000-0000-0000-000000000008",
+    "firstName": "Serhii",
+    "lastName": "Zhadan",
+    "email": "serhii.zhadan@ua.net"
+  }
+]
+```
+
+### 2. Create Client
+
+**Example Request**
+
+```bash
+#Linux/macOS
+curl -X POST http://localhost:8080/api/client \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "Іван",
+    "lastName": "Петренко",
+    "email": "ivan@example.com"
+  }'
+```
+
+```bash
+#Windows CMD
+curl -X POST http://localhost:8080/api/client ^
+-H "Content-Type: application/json" ^
+-d "{\"firstName\":\"Іван\",\"lastName\":\"Петренко\",\"email\":\"ivan@example.com\"}"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "ea51fe07-61cd-42d1-9e56-38e3367a6dbe",
+  "firstName": "Іван",
+  "lastName": "Петренко",
+  "email": "ivan@example.com"
+}
+```
+
+### 3. Update Client
+
+**Example Request**
+
+```bash
+#Linux/macOS
+curl -X PUT http://localhost:8080/api/client/ea51fe07-61cd-42d1-9e56-38e3367a6dbe \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "ІванUpd",
+    "lastName": "ІвановUpd",
+    "email": "ivan.new@example.com"
+  }'
+```
+
+```bash
+#Windows CMD
+curl -X PUT http://localhost:8080/api/client/ea51fe07-61cd-42d1-9e56-38e3367a6dbe ^
+-H "Content-Type: application/json" ^
+-d "{\"firstName\":\"ІванUpd\",\"lastName\":\"ІвановUpd\",\"email\":\"ivan.new@example.com\"}"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "ea51fe07-61cd-42d1-9e56-38e3367a6dbe",
+  "firstName": "ІванUpd",
+  "lastName": "ІвановUpd",
+  "email": "ivan.new@example.com"
+}
+```
+
+### 4. Remove Client
+
+**Example Request**
+
+```bash
+#Linux/macOS/Windows
+curl -X DELETE http://localhost:8080/api/client/ea51fe07-61cd-42d1-9e56-38e3367a6dbe
+```
+
+**Example Response**
+
+```http
+HttpStatus: 204 No Content
+```
+
+### Insurance Policies Base URL: http://localhost:8080/api/insurance_policy
+
+### 1. Get Policy
+
+**Example Request**
+
+```bash
+#Linux/macOS/Windows
+curl http://localhost:8080/api/insurance_policy/22222222-0000-0000-0000-000000000001
+```
+
+**Example Response**
+
+```json
+{
+  "id": "22222222-0000-0000-0000-000000000001",
+  "policyNumber": "POL-AUTO-001",
+  "policyType": "AUTO",
+  "startDate": "2024-01-01",
+  "endDate": "2025-01-01",
+  "coveredRisks": [
+    "ACCIDENT",
+    "THEFT"
+  ],
+  "client": {
+    "id": "11111111-0000-0000-0000-000000000001",
+    "firstName": "Taras",
+    "lastName": "Shevchenko",
+    "email": "taras.sheva@ua.net"
+  }
+}
+```
+
+### 2. Create Policy
+
+**Example Request**
+
+```bash
+#Linux/macOS
+curl -X POST http://localhost:8080/api/insurance_policy \
+  -H "Content-Type: application/json" \
+  -d '{
+    "policyNumber": "POL-2026-001",
+    "policyType": "Health Insurance",
+    "startDate": "2026-02-01",
+    "endDate": "2027-02-01",
+    "coveredRisks": ["Medical", "Hospital"],
+    "clientId": "11111111-0000-0000-0000-000000000001"
+  }'
+```
+
+```bash
+#Windows CMD
+curl -X POST http://localhost:8080/api/insurance_policy ^
+-H "Content-Type: application/json" ^
+-d "{\"policyNumber\":\"POL-2026-001\",\"policyType\":\"Health Insurance\",\"startDate\":\"2026-02-01\",\"endDate\":\"2027-02-01\",\"coveredRisks\":[\"Medical\",\"Hospital\"],\"clientId\":\"11111111-0000-0000-0000-000000000001\"}"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "04b34093-aa3d-4f2f-bf69-9c14f22cf480",
+  "policyNumber": "POL-2026-001",
+  "policyType": "Health Insurance",
+  "startDate": "2026-02-01",
+  "endDate": "2027-02-01",
+  "coveredRisks": [
+    "Medical",
+    "Hospital"
+  ],
+  "client": {
+    "id": "11111111-0000-0000-0000-000000000001",
+    "firstName": "Taras",
+    "lastName": "Shevchenko",
+    "email": "taras.sheva@ua.net"
+  }
+}
+```
+
+### 3. Update Policy
+
+**Example Request**
+
+```bash
+#Linux/macOS
+curl -X PUT http://localhost:8080/api/insurance_policy/04b34093-aa3d-4f2f-bf69-9c14f22cf480 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "policyType": "Health Insurance Premium",
+    "startDate": "2026-12-01",
+    "endDate": "2027-12-01",
+    "coveredRisks": ["Medical", "Hospital", "Surgery"],
+    "clientId": "11111111-0000-0000-0000-000000000001"
+  }'
+```
+
+```bash
+#Windows CMD
+curl -X PUT http://localhost:8080/api/insurance_policy/04b34093-aa3d-4f2f-bf69-9c14f22cf480 ^
+-H "Content-Type: application/json" ^
+-d "{\"policyType\":\"Health Insurance Premium\",\"startDate\":\"2026-12-01\",\"endDate\":\"2027-12-01\",\"coveredRisks\":[\"Medical\",\"Hospital\",\"Surgery\"],\"clientId\":\"11111111-0000-0000-0000-000000000001\"}"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "04b34093-aa3d-4f2f-bf69-9c14f22cf480",
+  "policyNumber": "POL-2026-001",
+  "policyType": "Health Insurance Premium",
+  "startDate": "2026-12-01",
+  "endDate": "2027-12-01",
+  "coveredRisks": [
+    "Medical",
+    "Hospital",
+    "Surgery"
+  ],
+  "client": {
+    "id": "11111111-0000-0000-0000-000000000001",
+    "firstName": "Taras",
+    "lastName": "Shevchenko",
+    "email": "taras.sheva@ua.net"
+  }
+}
+```
+
+### 4. Remove Policy
+
+**Example Request**
+
+```bash
+#Linux/macOS/Windows
+curl -X DELETE http://localhost:8080/api/insurance_policy/04b34093-aa3d-4f2f-bf69-9c14f22cf480
+```
+
+**Example Response**
+
+```http
+HttpStatus: 204 No Content
+```
+
